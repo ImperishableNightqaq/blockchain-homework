@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 #define ull unsigned long long
+#define sizeblock 5
+#define sizedata (1024 * 1024 - 16)
 #define INFU 18446744073709551615
 #define rightrotate(w, n) ((w >> n) | (w) << (32 - (n)))
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -12,8 +14,9 @@
 using namespace std;
 struct Blockdata
 {
+    unsigned char data[sizedata];
     ull nonce1, nonce2;
-} block[105];
+} block[sizeblock];
 unsigned char in[16];
 unsigned char out[64];
 static const uint32_t k[64] =
@@ -119,7 +122,7 @@ void sha256(const unsigned char *data, size_t len, unsigned char *out)
     for (int i = 4; i <= 7; i++)
         out[i] = out[i + 12];
 }
-bool check(int p)//p表示4bit的个数
+bool check(int p) //p表示4bit的个数
 {
     bool ok = 1;
     if (p % 2 == 0)
@@ -138,8 +141,10 @@ bool check(int p)//p表示4bit的个数
     }
     return ok;
 }
+mt19937_64 rand_num((chrono::system_clock::now().time_since_epoch()).count());
 signed main()
 {
+    for(int i=0;i<sizedata;i++) for(int j=0;j<sizeblock;j++) block[i].data[j]=rand_num();
     int p = 2; //p表示4bit的个数
     for (ull a = 0; a <= INFU; a++)
     {
