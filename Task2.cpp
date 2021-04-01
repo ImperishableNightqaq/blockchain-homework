@@ -144,7 +144,6 @@ bool check(int p) //p表示4bit的个数
     }
     return ok;
 }
-mt19937_64 rand_num((chrono::system_clock::now().time_since_epoch()).count());
 signed main()
 {
     Blockdata *head = 0;
