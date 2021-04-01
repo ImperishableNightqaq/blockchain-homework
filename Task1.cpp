@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #define ull unsigned long long
-#define sizeblock 5
-#define sizedata (1024 * 1024 - 16)
+#define DATASIZE (1024 * 1024 - 16)
+#define BLOCKCNT 10
 #define INFU 18446744073709551615
 #define rightrotate(w, n) ((w >> n) | (w) << (32 - (n)))
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -14,9 +14,9 @@
 using namespace std;
 struct Blockdata
 {
-    unsigned char data[sizedata];
-    ull nonce1, nonce2;
-} block[sizeblock];
+    unsigned char data[DATASIZE];
+    ull amount;
+} block[BLOCKCNT];
 unsigned char in[16];
 unsigned char out[64];
 static const uint32_t k[64] =
@@ -144,7 +144,6 @@ bool check(int p) //p表示4bit的个数
 mt19937_64 rand_num((chrono::system_clock::now().time_since_epoch()).count());
 signed main()
 {
-    for(int i=0;i<sizedata;i++) for(int j=0;j<sizeblock;j++) block[i].data[j]=rand_num();
     int p = 2; //p表示4bit的个数
     for (ull a = 0; a <= INFU; a++)
     {
@@ -164,28 +163,27 @@ signed main()
             sha256(in, 16, out);
             if (check(p))
             {
-                block[0].nonce1 = a, block[0].nonce2 = b;
-                for (int i = 0; i < 16; i++)
+                printf("nonce1=");
+                cout << a << endl;
+                printf("nonce2=");
+                cout << b << endl;
+                printf("data=");
+                for (int i = 0; i <= 16; i++)
+                    printf("%d ", in[i]);
+                cout << endl;
+                printf("sha=");
+                for (int i = 0; i <= 7; i++)
                 {
-                    printf("nonce1=");
-                    cout << a << endl;
-                    printf("nonce2=");
-                    cout << b << endl;
-                    printf("data=");
-                    for (int i = 0; i <= 16; i++)
-                        printf("%d ", in[i]);
-                    cout << endl;
-                    printf("sha=");
-                    for (int i = 0; i <= 7; i++)
-                    {
-                        if (out[i] < 16)
-                            printf("0");
-                        printf("%x ", out[i]);
-                    }
-                    return 0;
+                    if (out[i] < 16)
+                        printf("0");
+                    printf("%x ", out[i]);
                 }
+                cout << endl;
+                return 0;
             }
         }
+        memset(in, sizeof(in), 0);
+        memset(out, sizeof(out), 0);
     }
     return 0;
 }
