@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.ERB": "plaintext",
+        "charconv": "cpp",
+        "ostream": "cpp"
+    }
+}
