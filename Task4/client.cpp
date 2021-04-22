@@ -179,6 +179,7 @@ int main()
         if (i != len - 1)
             p *= 10;
     }
+    printf("p=%d\n", p);
     Blockdata *head = 0;
     Blockdata *pre = 0;
     int cnt = 0;
