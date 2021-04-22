@@ -25,6 +25,7 @@ signed main()
     //向客户端发送数据
     char str[100];
     printf("Input the value of p\n");
+    str[0] = '2';
     scanf("%s", str);
     send(clntSock, str, strlen(str) + sizeof(char), NULL);
     //关闭套接字
